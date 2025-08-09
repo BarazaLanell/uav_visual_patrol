@@ -363,16 +363,7 @@ class CameraOp():
                 # 更新显示
                 cv2.imshow("Binary (Processed)", binary_bgr)
 
-    # 新增：线模式处理函数
-    def line_mode_process(self, angles, offsets):
-        """线模式处理逻辑（空实现）"""
 
-        pass
-
-    # 新增：漂移模式处理函数
-    def drift_mode_process(self, angles, offsets):
-        """漂移模式处理逻辑（空实现）"""
-        pass
 
     def start_video(self):
         cap = self._open_source()
@@ -420,13 +411,6 @@ class CameraOp():
                 else:
                     # 计算角度并判断线/漂移模式
                     angles , offsets = self._draw_binary_window(binary, video_filename)
-                    # 判断条件：任意角度绝对值>5度则为漂移模式
-                    if angles and any(abs(angle) > 5 for angle in angles):
-                        self.mode = 'drift'
-                        self.drift_mode_process(angles, offsets)
-                    else:
-                        self.mode = 'line'
-                        self.line_mode_process(angles, offsets)
             
             # 键盘输入处理
             key = cv2.waitKey(delay) & 0xFF
